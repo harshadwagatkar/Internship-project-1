@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+/* Custom utility classes */
+/* @layer utilities {
+  .text-gradient-royal {
+    @apply bg-gradient-to-r from-royal-500 to-gold-500 bg-clip-text text-transparent;
+  }
+  
+  .btn-primary {
+    @apply bg-royal-500 text-white px-6 py-3 rounded-lg font-medium
+           hover:bg-royal-600 transition-all duration-300;
+  }
+  
+  .btn-gold {
+    @apply bg-gold-500 text-white px-6 py-3 rounded-lg font-medium
+           hover:bg-gold-600 transition-all duration-300;
+  }
+  
+  .card-royal {
+    @apply bg-white rounded-2xl shadow-lg p-6 border border-royal-100;
+  }
+} */
