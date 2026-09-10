@@ -1,1 +1,7 @@
-console.log("Server is running")
+import express from 'express'
+import app from './src/app'
+
+app.listen(process.env.PORT, () => {
+    console.log(`Server running on port ${process.env.PORT}`)
+    
+})
