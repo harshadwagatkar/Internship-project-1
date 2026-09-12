@@ -1,45 +1,17 @@
-import React, { useRef } from "react";
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import About from "./components/About";
-import Vision from "./components/Vision";
-import Objective from "./components/Objective";
-import Courses from "./components/Courses";
-import CoursesPage from "./components/CoursesPage";
-import NextBatch from "./components/NextBatch";
-import Form from "./components/Form";
-import Footer from "./components/Footer";
+import React from 'react'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import HomePage from './Pages/HomePage';
+import Signup from './Pages/Signup';
 
-const App = () => { 
-  const homeRef = useRef(null);
-  const aboutRef = useRef(null);
-  const visionRef = useRef(null);
-  const programObjRef = useRef(null); 
-  const coursesRef = useRef(null);
-  const contactRef = useRef(null);
-
-  const sectionRefs = {
-    home : homeRef,
-    about : aboutRef,
-    vision : visionRef,
-    programObj : programObjRef,
-    courses : coursesRef,
-    contact : contactRef
-  }
-
+const App = () => {
   return (
-    <div className="min-h-screen bg-white font-sans">
-      <Navbar sectionRefs={sectionRefs}/>
-      <Hero ref={homeRef}/>
-      <About ref={aboutRef}/>
-      <Vision ref={visionRef}/>
-      <Objective ref={programObjRef}/>
-      <CoursesPage ref={coursesRef}/>
-      <NextBatch ref={coursesRef} />
-      <Form ref={contactRef}/>
-      <Footer />
-    </div>
-  );
-};
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage /> } />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
+    </BrowserRouter>
+  )
+}
 
-export default App;
+export default App
