@@ -1,11 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { User, Mail, Lock, UserPlus } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { serverUrl } from "../App";
+import axios from "axios"
 
 const SignUp = () => {
+  const [formData, setFormData] = useState({username : "" ,email : "", password : ""});
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({...formData, [e.target.name] : e.target.value});
+  }
 
 
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(`${serverUrl}/api/auth/signup`, formData, {withCredentials : true})
+      if(response.data) {
+        navigate("/");
+      }
+
+    } catch (error) {
+      console.log(error)
+    }  
+  }
   
+
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-100 via-white to-purple-50 flex items-center justify-center px-4 py-10">
 
@@ -72,7 +94,7 @@ const SignUp = () => {
               </p>
             </div>
 
-            <form className="space-y-5">
+            <form className="space-y-5" onSubmit={handleSubmit}>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -81,6 +103,8 @@ const SignUp = () => {
 
                 
                   <input
+                    name="username"
+                    onChange={handleChange}
                     type="text"
                     placeholder="Enter your username"
                     className="w-full pl-5 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-800 placeholder-gray-400 outline-none focus:ring-2 focus:ring-violet-100"
@@ -95,6 +119,8 @@ const SignUp = () => {
                 
 
                   <input
+                    name="email"
+                    onChange={handleChange}
                     type="email"
                     placeholder="Enter your email"
                     className="w-full pl-5 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-800 placeholder-gray-400 outline-none focus:ring-2 focus:ring-violet-100"
@@ -110,6 +136,8 @@ const SignUp = () => {
 
 
                   <input
+                    name="password"
+                    onChange={handleChange}
                     type="password"
                     placeholder="Create a password"
                     className="w-full pl-5 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-800 placeholder-gray-400 outline-none focus:ring-2 focus:ring-violet-100"

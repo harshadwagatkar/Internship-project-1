@@ -4,7 +4,11 @@ import HomePage from './Pages/HomePage';
 import Signup from './Pages/Signup';
 import Signin from './Pages/Signin';
 
+export const serverUrl = "http://localhost:3000";
+
 const App = () => {
+
+
   return (
     <BrowserRouter>
       <Routes>
