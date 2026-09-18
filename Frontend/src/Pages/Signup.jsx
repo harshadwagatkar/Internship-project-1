@@ -3,10 +3,13 @@ import { User, Mail, Lock, UserPlus } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { serverUrl } from "../App";
 import axios from "axios"
+import {useDispatch} from "react-redux"
+import { setUser } from "../redux/slices/authSlice";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({username : "" ,email : "", password : ""});
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setFormData({...formData, [e.target.name] : e.target.value});
@@ -17,7 +20,8 @@ const SignUp = () => {
     e.preventDefault();
     try {
       const response = await axios.post(`${serverUrl}/api/auth/signup`, formData, {withCredentials : true})
-      if(response.data) {
+      if(response.data.success) {
+        dispatch(setUser(response.data.user));
         navigate("/");
       }
 
