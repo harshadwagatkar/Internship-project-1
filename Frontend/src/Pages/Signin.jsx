@@ -1,9 +1,43 @@
-import { Link } from "react-router-dom";
-import React from 'react'
+import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from 'react'
+import axios from "axios";
+import { serverUrl } from "../App";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/slices/authSlice";
 
 const Signin = () => {
     
+  const dispatch = useDispatch();
 
+  const [formData, setFormData] = useState({
+    email : "",
+    password : ""
+  })
+  const navigate = useNavigate()
+
+  const handleChange = (e) => {
+    setFormData({...formData, [e.target.name] : e.target.value});
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(serverUrl + "/api/auth/signin", formData, {withCredentials : true})
+
+      if(response.data.success) {
+        dispatch(setUser(response.data.user))
+
+
+        navigate("/")
+        return;
+      }
+
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-100 via-white to-purple-50 flex items-center justify-center px-4 py-10">
@@ -23,7 +57,7 @@ const Signin = () => {
               </p>
             </div>
 
-            <form className="space-y-5">
+            <form className="space-y-5" onSubmit={handleSubmit}>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -33,6 +67,8 @@ const Signin = () => {
 
                   <input
                     type="email"
+                    onChange={handleChange}
+                    name = "email"
                     placeholder="Enter your email"
                     className="w-full pl-5 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-800 placeholder-gray-400 outline-none focus:ring-2 focus:ring-violet-100"
                   />
@@ -48,6 +84,8 @@ const Signin = () => {
 
                   <input
                     type="password"
+                    onChange={handleChange}
+                    name = "password"
                     placeholder="Enter your password"
                     className="w-full pl-5 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-800 placeholder-gray-400 outline-none focus:ring-2 focus:ring-violet-100"
                   />
