@@ -4,6 +4,7 @@ import axios from "axios";
 import { serverUrl } from "../App";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/slices/authSlice";
+import { toast } from "react-toastify";
 
 const Signin = () => {
     
@@ -22,20 +23,54 @@ const Signin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!formData.email.trim() || !formData.password.trim()) {
+      toast.warn("Please enter both email and password.");
+      return;
+    }
+
+    const loadingToastId = toast.loading("Signing you in...");
+
     try {
       const response = await axios.post(serverUrl + "/api/auth/signin", formData, {withCredentials : true})
 
       if(response.data.success) {
         dispatch(setUser(response.data.user))
 
+        toast.update(loadingToastId, {
+          render: `Welcome back, ${response.data.user?.name || "user"}!`,
+          type: "success",
+          isLoading: false,
+          autoClose: 2000,
+        });
 
-        navigate("/")
+        setTimeout(() => navigate("/"), 800);
+        // navigate("/")
         return;
       }
 
+      toast.update(loadingToastId, {
+        render: response.data.message || "Invalid email or password.",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+
 
     } catch (error) {
-      console.log(error)
+      console.log(error);
+
+      // Distinguish between server error response and network error
+      const message =
+        error.response?.data?.message ||
+        "Something went wrong. Please try again.";
+
+      toast.update(loadingToastId, {
+        render: message,
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+    
     }
   }
 
