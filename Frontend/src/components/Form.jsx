@@ -6,7 +6,7 @@ import axios from "axios";
 import { serverUrl } from "../App";
 
 const Form = forwardRef((prop, ref) => {
-  const { user, isAuthenticated } = useSelector((state) => state.auth);
+  const { user, isAuthenticated, loading } = useSelector((state) => state.auth);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -40,6 +40,8 @@ const Form = forwardRef((prop, ref) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if(loading) return;
+
     if (!isAuthenticated) {
       navigate("/signin");
       return;
@@ -55,7 +57,7 @@ const Form = forwardRef((prop, ref) => {
       );
 
       if (response.data.success) {
-        console.log(response.data);
+        // console.log(response.data);
 
         setFormData({
           name: user?.username || "",

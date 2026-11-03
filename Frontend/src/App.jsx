@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from './Pages/HomePage';
 import Signup from './Pages/Signup';
 import Signin from './Pages/Signin';
+import AuthInitializer from './components/AuthInitializer'
 
 export const serverUrl = "http://localhost:3000";
 
@@ -11,6 +12,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
+      <AuthInitializer />
       <Routes>
         <Route path="/" element={<HomePage /> } />
         <Route path="/signup" element={<Signup />} />
